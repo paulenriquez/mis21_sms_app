@@ -10,16 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 20161108075927) do
-=======
 ActiveRecord::Schema.define(version: 20161108080341) do
->>>>>>> 40cf463574a7cc5950b9110bf3a0ebed9da2e3e4
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-<<<<<<< HEAD
   create_table "outboxes", force: :cascade do |t|
     t.string   "message_type"
     t.string   "mobile_number"
@@ -28,7 +23,11 @@ ActiveRecord::Schema.define(version: 20161108080341) do
     t.string   "message"
     t.string   "client_id"
     t.string   "secret_key"
-=======
+  
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
   create_table "inboxes", force: :cascade do |t|
     t.string   "message_type"
     t.string   "mobile_number"
@@ -36,7 +35,7 @@ ActiveRecord::Schema.define(version: 20161108080341) do
     t.string   "request_id"
     t.string   "message"
     t.string   "timestamp"
->>>>>>> 40cf463574a7cc5950b9110bf3a0ebed9da2e3e4
+
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end
