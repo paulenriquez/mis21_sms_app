@@ -1,0 +1,2 @@
+class Outbox < ApplicationRecord
+end
