@@ -1,5 +1,5 @@
 class InboxesController < ApplicationController
-  before_action :authenticate_user!
+   #before_action :authenticate_user!
 
 	def index
 	    @inboxes = Inbox.all
@@ -26,6 +26,7 @@ class InboxesController < ApplicationController
 	end
 
 	def destroy
+
 	    @inbox.destroy
 	    redirect_to inboxes_path, notice: 'Inbox message successfully deleted!'
 	end
