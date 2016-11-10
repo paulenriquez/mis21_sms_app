@@ -1,6 +1,6 @@
 class OutboxesController < ApplicationController
     def index
-        @outboxes = Outboxes.all
+        @outboxes = Outbox.all
     end
     def new
         @outbox = Outbox.new
@@ -8,6 +8,7 @@ class OutboxesController < ApplicationController
     def create
         @outbox = Outbox.new(outbox_params)
         if @outbox.save
+            
         else
         end
     end
@@ -22,7 +23,7 @@ class OutboxesController < ApplicationController
     private def outbox_params
         params.require(:outbox).permit!
     end
-    def send_message(message)
+    private def send_message()
         chikka_post_request_url = "https://post.chikka.com/smsapi/request"
         HTTParty.post(chikka_post_request_url, :body => message.to_json)
     end
