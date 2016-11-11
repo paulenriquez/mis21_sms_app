@@ -1,6 +1,5 @@
 <%= simple_form_for @outbox do |f| %>
-    <%= f.hidden_field :message_type, value: "SEND"%>
     <%= f.input :mobile_number %>
     <%= f.input :message %>
-    <%= f.button :submit, "Submit"%>
+    <%= f.button :submit, "Submit" %>
 <% end %>
