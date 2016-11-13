@@ -12,24 +12,21 @@
             <tr><td>No Messages</td></tr>
         <% else %>
             <% @outboxes.each do |outbox| %>
-            </tr>
-                <td><%= outbox.id %></td>
-                <td><%= outbox.user.email if outbox.user.present? %></td>
-                <td><%= outbox.mobile_number %></td>
-                <td><%= outbox.message %></td>
-                <td><%= outbox.created_at%></td>
+                </tr>
+                    <td><%= outbox.id %></td>
+                    <td></td>
+                    <td><%= outbox.mobile_number %></td>
+                    <td><%= outbox.message %></td>
+                    <td><%= outbox.created_at %></td>
 
-                <!-- Message Action Buttons -->
-                <td>
-                   
-                </td>
-                <td>
-                
-                </td>
-                <td>
-                
-                </td>
-            </tr>
+                    <!-- Message Action Buttons -->
+                    <td>
+                        <%= link_to "View Message", outbox_path(outbox.id) %>
+                    </td>
+                    <td>
+                        <%= link_to "Resend Message", edit_outbox_path(outbox.id) %>
+                    </td>
+                </tr>
             <% end %>
         <% end %>
     </tbody>
