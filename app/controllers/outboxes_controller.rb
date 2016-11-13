@@ -44,6 +44,6 @@ class OutboxesController < ApplicationController
         params.require(:outbox).permit!
     end
     private def send_message
-        HTTParty.post(chikka_post_request_url, :body => message.to_json)
+        HTTParty.post(Rails.application.config.chikka_post_request_url, :body => message.to_json)
     end
 end
