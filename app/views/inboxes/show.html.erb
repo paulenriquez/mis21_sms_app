@@ -4,4 +4,6 @@
 	<%= @inbox.message %>
 </p>
 
+<%= link_to "Edit Message", edit_inbox_path(@inbox), class: "btn btn-info" %><br>
+<br>
 <%= link_to "Return to inbox messages", inboxes_path, class: "btn btn-info" %>
