@@ -11,8 +11,8 @@ class OutboxesController < ApplicationController
     # create: Save new Outbox Message
     def create
         @outbox = Outbox.new(outbox_params)
-        @outbox.message_type = "SEND"
         if @outbox.save
+            send_message(@outbox)
             redirect_to(outbox_path(@outbox.id))
         else
             redirect_to(new_outbox_path)
@@ -32,8 +32,8 @@ class OutboxesController < ApplicationController
     # update: Save edited Outbox Message as new Message
     def update
         @outbox = Outbox.new(outbox_params)
-        @outbox.message_type = "SEND"
         if @outbox.save
+            send_message(@outbox)
             redirect_to(outbox_path(@outbox.id))
         else
             redirect_to(new_outbox_path)
@@ -43,7 +43,7 @@ class OutboxesController < ApplicationController
     private def outbox_params
         params.require(:outbox).permit!
     end
-    private def send_message
-        HTTParty.post(Rails.application.config.chikka_post_request_url, :body => message.to_json)
+    private def send_message(sms_message)
+        HTTParty.post(Rails.application.config.chikka_post_request_url, body: sms_message.to_json, verify: false)
     end
 end
