@@ -28,16 +28,13 @@ class InboxesController < ApplicationController
 	end
 
     def update
-    	@inbox = Inbox.find params[:id]
+		@inbox = Inbox.find(params[:id])
       if @inbox.update(inbox_params)
         redirect_to inboxes_path, notice: 'Inbox message successfully edited!'
       else
         render :edit
       end
     end
-
-	def notify
-	end
 
 	def destroy
 		@inbox = Inbox.find(params[:id])
@@ -49,9 +46,7 @@ class InboxesController < ApplicationController
 		def inbox_params
 			params.require(:inbox).permit!
 		end
-
-	    def set_inbox
-      		@inbox = Inbox.find(params[:id])
-    	end	
-
+		def notify
+		
+		end
 end

@@ -1,4 +1,4 @@
 <h1>Outbox</h1>
-<h4>New Outbox Message</h1>
+<h4><%= params[:message].blank? ? "New Outbox Message" : "Forward Inbox Message" %></h1>
 
 <%= render "form" %>

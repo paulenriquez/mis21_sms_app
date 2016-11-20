@@ -6,6 +6,7 @@ class OutboxesController < ApplicationController
     # new: Generate New Outbox Message Form
     def new
         @outbox = Outbox.new
+        @outbox.message = params[:message]
     end
 
     # create: Save new Outbox Message
@@ -44,6 +45,6 @@ class OutboxesController < ApplicationController
         params.require(:outbox).permit!
     end
     private def send_message(sms_message)
-        HTTParty.post(Rails.application.config.chikka_post_request_url, body: sms_message.to_json, verify: false)
+        HTTParty.post(Rails.application.config.chikka_post_request_url, body: sms_message.attributes, verify: false)
     end
 end
