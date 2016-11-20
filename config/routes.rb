@@ -4,5 +4,5 @@ Rails.application.routes.draw do
   post 'inbox/receive', to: 'inboxes#create'
   
   resources :outboxes, path: 'outbox'
-  resources :inboxes, path: 'inbox', except: :new, :create
+  resources :inboxes, path: 'inbox', except: :new
 end
