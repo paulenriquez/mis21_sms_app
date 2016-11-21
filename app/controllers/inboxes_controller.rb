@@ -1,52 +1,35 @@
 class InboxesController < ApplicationController
    #before_action :authenticate_user!
+   protect_from_forgery except: [:receive]
 
 	def index
 	    @inboxes = Inbox.all
 	end
 
-	def new
-	    @inbox = Inbox.new
-	end
+	def receive
+		@inbox = Inbox.new
+		permitted_inbox_attributes = Inbox.column_names - ['id', 'created_at', 'updated_at']
 
-	def create
-	    #@inbox = current_user.inboxes.new(inbox_params)
-	    @inbox = Inbox.new(inbox_params)
-	    if @inbox.save
-	      redirect_to inboxes_path, notice: 'Inbox message successfully created!'
-	    else
-	      render :new
-	    end
+		request.params.each do |key, value|
+			if permitted_inbox_attributes.include?(key)
+				@inbox[key] = value
+			end
+		end
+
+		if @inbox.save
+			render json: {status: 'Accepted'}
+		else
+			render json: {status: 'Error'}
+		end
 	end
 
 	def show
 		@inbox = Inbox.find(params[:id])
 	end
 
-	def edit
-		@inbox = Inbox.find(params[:id])
-	end
-
-    def update
-		@inbox = Inbox.find(params[:id])
-      if @inbox.update(inbox_params)
-        redirect_to inboxes_path, notice: 'Inbox message successfully edited!'
-      else
-        render :edit
-      end
-    end
-
 	def destroy
 		@inbox = Inbox.find(params[:id])
 	    @inbox.destroy
 	    redirect_to inboxes_path, notice: 'Inbox message successfully deleted!'
 	end
-
-	private 
-		def inbox_params
-			params.require(:inbox).permit!
-		end
-		def notify
-		
-		end
 end
