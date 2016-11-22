@@ -1,4 +1,5 @@
 class OutboxesController < ApplicationController
+    before_action :authenticate_user!
     def index
         @outboxes = Outbox.all
     end
@@ -13,7 +14,7 @@ class OutboxesController < ApplicationController
     def create
         @outbox = Outbox.new(outbox_params)
         if @outbox.save
-            send_message(sms_message)
+            send_message(@outbox)
             redirect_to outbox_path(@outbox.id)
         else
             redirect_to new_outbox_path(send_type: 'resend')
