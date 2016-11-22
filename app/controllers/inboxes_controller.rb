@@ -33,8 +33,20 @@ class InboxesController < ApplicationController
 	    redirect_to inboxes_path, notice: 'Inbox message successfully deleted!'
 	end
 
-	private def send_confirmation_reply(received_sms_message)
-	
-		HTTParty.post(Rails.application.config.chikka_post_request_url, body: sms_message.attributes, headers: {'Content-Type' => 'application/x-www-form-urlencoded'}, verify: false)
-	end
+	private
+		def send_confirmation_reply(received_sms_message)
+			reply_message = {}
+			outbox = Outbox.new(id: -1, message_type: 'REPLY', mobile_number: received_sms_message.mobile_number, message: Rails.application.config.chikka_api_confirmation_reply_message)
+
+			outbox.save
+			Outbox.find(-1).attributes.each do |key, value|
+				reply_message[key] = value
+			end
+			Outbox.find(-1).destroy
+
+			reply_message[request_id] = received_sms_message.request_id
+			reply_message[request_cost] = 'FREE'
+
+			HTTParty.post(Rails.application.config.chikka_api_post_request_url, body: reply_message.attributes, headers: {'Content-Type' => 'application/x-www-form-urlencoded'}, verify: false)
+		end
 end

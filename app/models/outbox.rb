@@ -5,7 +5,6 @@ class Outbox < ApplicationRecord
     validates :message, presence: true
 
     private def complete_outbox_attributes
-        self.message_type = "SEND"
         self.shortcode = Rails.application.config.chikka_api_shortcode
         self.message_id = generate_message_id
         self.client_id = Rails.application.config.chikka_api_client_id
