@@ -13,7 +13,7 @@ class OutboxesController < ApplicationController
 
     def create
         @outbox = Outbox.new(outbox_params)
-        @outbox.message_type = "SEND"
+        @outbox.message_type = 'SEND'
         if @outbox.save
             send_message(@outbox)
             redirect_to outbox_path(@outbox.id)

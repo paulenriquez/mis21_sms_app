@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  # devise_for :users
   root to: 'pages#index'
   
   post '/inbox/receive', to: 'inboxes#receive'
