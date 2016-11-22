@@ -35,18 +35,17 @@ class InboxesController < ApplicationController
 
 	private
 		def send_confirmation_reply(received_sms_message)
-			reply_message = {}
-			outbox = Outbox.new(id: -1, message_type: 'REPLY', mobile_number: received_sms_message.mobile_number, message: Rails.application.config.chikka_api_confirmation_reply_message)
-
-			outbox.save
-			Outbox.find(-1).attributes.each do |key, value|
-				reply_message[key] = value
-			end
-			Outbox.find(-1).destroy
-
-			reply_message[request_id] = received_sms_message.request_id
-			reply_message[request_cost] = 'FREE'
-
+			reply_message = {
+				message_type: 'REPLY',
+				mobile_number: received_sms_message.mobile_number,
+				shortcode: Rails.application.config.chikka_api_shortcode,
+				request_id: received_sms_message.request_id,
+				message_id: SecureRandom.hex,
+				message: Rails.application.config.chikka_api_confirmation_reply_message,
+				request_cost: 'FREE',
+				client_id: Rails.application.config.chikka_api_client_id,
+				secret_key: Rails.application.config.chikka_api_secret_key
+			}
 			HTTParty.post(Rails.application.config.chikka_api_post_request_url, body: reply_message.attributes, headers: {'Content-Type' => 'application/x-www-form-urlencoded'}, verify: false)
 		end
 end
