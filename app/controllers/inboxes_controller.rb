@@ -1,5 +1,5 @@
 class InboxesController < ApplicationController
-   before_action :authenticate_user!
+   # before_action :authenticate_user!
    protect_from_forgery except: [:receive]
 
 	def index
