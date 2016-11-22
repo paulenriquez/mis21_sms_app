@@ -4,9 +4,9 @@ class OutboxesController < ApplicationController
     end
 
     def new
-        @outbox = Outbox.new
-        params.keys.each do |key, value|
-            @outbox[key] = value if not params[key].blank?
+        @outbox = Outbox.new do |outbox|
+            outbox.mobile_number = params[:mobile_number]
+            outbox.message = params[:message]
         end
     end
 
