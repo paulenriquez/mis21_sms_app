@@ -3,6 +3,6 @@ Rails.application.routes.draw do
   
   post '/inbox/receive', to: 'inboxes#receive'
 
-  resources :outboxes, path: 'outbox'
+  resources :outboxes, path: 'outbox', except: [:edit, :update, :destroy]
   resources :inboxes, path: 'inbox', except: [:new, :create]
 end

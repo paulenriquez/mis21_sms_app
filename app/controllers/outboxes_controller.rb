@@ -5,18 +5,18 @@ class OutboxesController < ApplicationController
 
     def new
         @outbox = Outbox.new
-        
-        @outbox.mobile_number = params[:mobile_number] if not params[:mobile_number].blank?
-        @outbox.message = params[:message] if not params[:message].blank?
+        params.keys.each do |key, value|
+            @outbox[key] = value if not params[key].blank?
+        end
     end
 
     def create
         @outbox = Outbox.new(outbox_params)
         if @outbox.save
-            send_message(@outbox)
-            redirect_to(outbox_path(@outbox.id))
+            send_message(sms_message)
+            redirect_to outbox_path(@outbox.id)
         else
-            redirect_to(new_outbox_path)
+            redirect_to new_outbox_path(send_type: 'resend')
         end
     end
 
@@ -24,10 +24,11 @@ class OutboxesController < ApplicationController
         @outbox = Outbox.find(params[:id])
     end
 
-    private def outbox_params
-        params.require(:outbox).permit(:mobile_number, :message)
-    end
-    private def send_message(sms_message)
-        HTTParty.post(Rails.application.config.chikka_post_request_url, body: sms_message.attributes, headers: {'Content-Type' => 'application/x-www-form-urlencoded'}, verify: false)
-    end
+    private
+        def outbox_params
+            params.require(:outbox).permit(:mobile_number, :message)
+        end
+        def send_message(sms_message)
+            HTTParty.post(Rails.application.config.chikka_post_request_url, body: sms_message.attributes, headers: {'Content-Type' => 'application/x-www-form-urlencoded'}, verify: false)
+        end                   
 end
