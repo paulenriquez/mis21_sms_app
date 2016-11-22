@@ -1,42 +1,30 @@
 class InboxesController < ApplicationController
    #before_action :authenticate_user!
+   protect_from_forgery except: [:receive]
 
 	def index
 	    @inboxes = Inbox.all
 	end
 
-	def new
-	    @inbox = Inbox.new
-	end
+	def receive
+		@inbox = Inbox.new
+		permitted_inbox_attributes = Inbox.column_names - ['id', 'created_at', 'updated_at']
 
-	def create
-	    #@inbox = current_user.inboxes.new(inbox_params)
-	    @inbox = Inbox.new(inbox_params)
-	    if @inbox.save
-	      redirect_to inboxes_path, notice: 'Inbox message successfully created!'
-	    else
-	      render :new
-	    end
+		request.params.each do |key, value|
+			@inbox[key] = value if permitted_inbox_attributes.include?(key)
+		end
+
+		send_confirmation_reply(@inbox)
+
+		if @inbox.save
+			render json: {status: 'Accepted'}
+		else
+			render json: {status: 'Error'}
+		end
 	end
 
 	def show
 		@inbox = Inbox.find(params[:id])
-	end
-
-	def edit
-		@inbox = Inbox.find(params[:id])
-	end
-
-    def update
-    	@inbox = Inbox.find params[:id]
-      if @inbox.update(inbox_params)
-        redirect_to inboxes_path, notice: 'Inbox message successfully edited!'
-      else
-        render :edit
-      end
-    end
-
-	def notify
 	end
 
 	def destroy
@@ -45,13 +33,8 @@ class InboxesController < ApplicationController
 	    redirect_to inboxes_path, notice: 'Inbox message successfully deleted!'
 	end
 
-	private 
-		def inbox_params
-			params.require(:inbox).permit!
-		end
-
-	    def set_inbox
-      		@inbox = Inbox.find(params[:id])
-    	end	
-
+	private def send_confirmation_reply(received_sms_message)
+	
+		HTTParty.post(Rails.application.config.chikka_post_request_url, body: sms_message.attributes, headers: {'Content-Type' => 'application/x-www-form-urlencoded'}, verify: false)
+	end
 end
