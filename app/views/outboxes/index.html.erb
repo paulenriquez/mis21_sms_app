@@ -1,30 +1,31 @@
-<h1>Outbox</h1>
-<table class="table table-striped">
+<h4 class="page-title">Outbox Messages</h4>
+<table id="outbox-table" class="table table-hover">
     <thead>
-        <th>ID</th>
-        <th>Created by</th>
-        <th>Mobile Number</th>
-        <th>Message</th>
-        <th>Sent</th>
+        <th class="mobile-number">Mobile Number</th>
+        <th class="user">Created by</th>
+        <th class="message">Message</th>
+        <th class="timestamp">Sent</th>
+        <th class="actions"></th>
     </thead>
     <tbody>
         <% if @outboxes.empty? %>
             <tr><td>No Messages</td></tr>
         <% else %>
             <% @outboxes.each do |outbox| %>
-                </tr>
-                    <td><%= outbox.id %></td>
-                    <td><%= outbox.user.email if outbox.user.present? %></td>
-                    <td><%= outbox.mobile_number %></td>
-                    <td><%= outbox.message %></td>
-                    <td><%= outbox.created_at %></td>
-                    <td>
-                        <%= link_to "View Message", outbox_path(outbox.id) %>
-                    </td>
-                    <td>
-                        <%= link_to "Resend Message", edit_outbox_path(outbox.id) %>
-                    </td>
-                </tr>
+                <% if not outbox.message_type == 'REPLY' %>
+                    </tr>
+                        <td><%= outbox.mobile_number %></td>
+                        <td><%= outbox.user.email if outbox.user.present? %></td>
+                        <td><%= outbox.message %></td>
+                        <td><%= outbox.created_at %></td>
+                        <td>
+                            <div class="btn-group message-actions" role="group">
+                                <%= link_to "View", outbox_path(outbox), class: 'btn btn-default' %>
+                                <%= link_to "Resend", resend_outbox_path(outbox), class: 'btn btn-default' %>
+                            </div>
+                        </td>
+                    </tr>
+                <% end %>
             <% end %>
         <% end %>
     </tbody>

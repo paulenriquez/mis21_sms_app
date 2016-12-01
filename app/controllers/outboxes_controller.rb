@@ -6,41 +6,36 @@ class OutboxesController < ApplicationController
     end
 
     def new
-
         @outbox = Outbox.new
+    end
 
+    def resend
+        @outbox = Outbox.find(params[:id])
     end
 
     def create
         @outbox = current_user.outboxes.new(outbox_params)
-        @outbox.message_type = 'SEND'
         if @outbox.save
             send_message(@outbox)
-            redirect_to outbox_path(@outbox)
+            redirect_to sent_outbox_path(@outbox)
         else
             render :new
+        end
+    end
+
+    def sent
+        @outbox = Outbox.find(params[:id])
+        @return_link = {}
+        if params[:from] == 'inbox'
+            @return_link = {text: 'Return to Inbox', link: inboxes_path}
+        else
+            @return_link = {text: 'Return to Outbox', link: outboxes_path}
         end
     end
 
     def show
         @outbox = Outbox.find(params[:id])
     end
-
-    def edit
-        @outbox = Outbox.find(params[:id])
-    end
-
-    def update
-        @outbox = current_user.outboxes.new(outbox_params)
-        @outbox.message_type = 'SEND'
-        if @outbox.save
-            send_message(@outbox)
-            redirect_to outbox_path(@outbox)
-        else
-            render :edit
-        end
-    end
-
 
     private
         def outbox_params

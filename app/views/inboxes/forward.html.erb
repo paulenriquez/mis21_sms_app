@@ -1,5 +1,7 @@
+<h4 class="page-title">Forward Inbox Message</h1>
+
 <%= simple_form_for @outbox, 
-    url: url_for(action: 'create', controller: 'outboxes'),
+    url: url_for(action: 'create_in_outbox', controller: 'inboxes'),
     method: 'post' do |f| %>
         <%= f.input :mobile_number %>
         <%= f.input :message %>

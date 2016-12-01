@@ -1,9 +1,14 @@
-<h1><%= @inbox.mobile_number %></h1>
-
-<p>
-	<%= @inbox.message %>
-</p>
-
-<%= link_to "Edit Message", edit_inbox_path(@inbox), class: "btn btn-info" %><br>
-<br>
-<%= link_to "Return to inbox messages", inboxes_path, class: "btn btn-info" %>
+<h4 class="page-title">View Inbox Message</h4>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title"><%= @inbox.mobile_number %></h3>
+    </div>
+    <div class="panel-body">
+        <%= @inbox.message %>
+    </div>
+</div>
+<%= link_to "Return to Inbox", inboxes_path, class: 'btn btn-default' %>
+<div class="btn-group message-actions" role="group">
+	<%= link_to "Forward", forward_inbox_path(@inbox), class: 'btn btn-default' %>
+	<%= link_to "Delete", inbox_path(@inbox), class: "btn btn-danger", method: :delete, data: { confirm: "Are you sure you want to delete this message?" } %>
+</div>

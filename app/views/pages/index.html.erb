@@ -1,3 +1,15 @@
-<h1>MIS 21 - Final Project</h1>
-<h4>An SMS Web App built on top of the Chikka API</h4>
-<p>ver 11.22.16 - 16:27</p>
+<div class="jumbotron">
+    <h1>SMS on Rails</h1>
+    <p>A web-app written on Rails that allows you to send and receive SMS messages using the Chikka API Platform.</p>
+    <% if not user_signed_in? %>
+        <p>
+            <%= link_to "Register", new_user_registration_path, class: "btn btn-primary btn-lg" %> 
+            <%= link_to "Login", new_user_session_path, class: "btn btn-primary btn-lg" %>
+        </p>
+    <% end %>
+</div>
+
+<div class="center">
+    <h4>Developed by: <b>Paul Enriquez</b> and <b>Iman Ramos</b></h4>
+    <h5><i>for</i> MIS 21 - Introduction to Applications Development, SY 2016-17.<br>
+</div>

@@ -14,3 +14,55 @@
  */
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+.navbar {
+    background-color: white;
+}
+
+h4.page-title {
+    margin-left: 10px;
+}
+
+.center {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+    text-align: center;
+}
+
+#inbox-table {
+    .mobile-number {
+        width: 15%;
+    }
+    .message {
+        width: 35%;
+    }
+    .timestamp {
+        width: 20%;
+    }
+    .actions {
+        width: 30%;
+    }
+}
+
+#outbox-table {
+    .mobile-number {
+        width: 10%;
+    }
+    .user {
+        width: 15%
+    }
+    .message {
+        width: 30%;
+    }
+    .timestamp {
+        width: 20%;
+    }
+    .actions {
+        width: 20%;
+    }
+}
+
+.message-actions .btn {
+    width: 100px;
+}
