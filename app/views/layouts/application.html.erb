@@ -14,8 +14,8 @@
         <div class="container">
           <ul class="nav navbar-nav">
             <li><a href="/">Home</a></li>
-            <li><a href="/inbox">Inbox <span class="badge"><%= Inbox.count %></span></a></li>
-            <li><a href="/outbox">Outbox <span class="badge"><%= Outbox.count %></span></a></li>
+            <li><a href="/inbox">Inbox <% if user_signed_in? then %><span class="badge"><%= Inbox.count %></span><% end %></a></li>
+            <li><a href="/outbox">Outbox <% if user_signed_in? then %><span class="badge"><%= Outbox.count %></span><% end %></a></li>
           </ul>
            <p class="navbar-text pull-right">
             <% if user_signed_in? %>

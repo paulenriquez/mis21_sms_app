@@ -54,9 +54,9 @@ class InboxesController < ApplicationController
 			outbox.save
 
 			outbox.attributes.each do |key, value|
-				reply_message['key'] = value
+				reply_message[key] = value
 			end
-			reply_message['request_cost'] = 'FREE'
+			reply_message[:request_cost] = 'FREE'
 
 			HTTParty.post(Rails.application.config.chikka_api_post_request_url, body: reply_message, headers: {'Content-Type' => 'application/x-www-form-urlencoded'}, verify: false)
 		end
