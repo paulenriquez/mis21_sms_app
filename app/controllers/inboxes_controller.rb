@@ -1,5 +1,5 @@
 class InboxesController < ApplicationController
-   before_action :authenticate_user! except: [:receive]
+   before_action :authenticate_user!, except: [:receive]
    protect_from_forgery except: [:receive]
 
 	def index
@@ -26,6 +26,21 @@ class InboxesController < ApplicationController
 		@inbox = Inbox.find(params[:id])
 	end
 
+	def edit
+		@inbox = Inbox.find(params[:id])
+		@outbox = Outbox.new(message: @inbox.message)
+	end
+
+	def update
+		@outbox = Outbox.new(outbox_params)
+		@outbox.message_type = 'SEND'
+		if @outbox.save
+			redirect_to inboxes_path, notice: 'Inbox message successfully forwarded!'
+		else
+			render :edit
+		end
+	end
+
 	def destroy
 		@inbox = Inbox.find(params[:id])
 	    @inbox.destroy
@@ -47,4 +62,7 @@ class InboxesController < ApplicationController
 			}
 			HTTParty.post(Rails.application.config.chikka_api_post_request_url, body: reply_message, headers: {'Content-Type' => 'application/x-www-form-urlencoded'}, verify: false)
 		end
+		def outbox_params
+            params.require(:outbox).permit(:mobile_number, :message)
+        end
 end
