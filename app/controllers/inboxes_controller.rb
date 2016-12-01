@@ -26,6 +26,7 @@ class InboxesController < ApplicationController
 		@inbox = Inbox.find(params[:id])
 	end
 
+
 	def edit
 		@inbox = Inbox.find(params[:id])
 		@outbox = Outbox.new(message: @inbox.message)
@@ -40,6 +41,7 @@ class InboxesController < ApplicationController
 			render :edit
 		end
 	end
+
 
 	def destroy
 		@inbox = Inbox.find(params[:id])
@@ -62,7 +64,9 @@ class InboxesController < ApplicationController
 			}
 			HTTParty.post(Rails.application.config.chikka_api_post_request_url, body: reply_message, headers: {'Content-Type' => 'application/x-www-form-urlencoded'}, verify: false)
 		end
+
 		def outbox_params
             params.require(:outbox).permit(:mobile_number, :message)
         end
+
 end

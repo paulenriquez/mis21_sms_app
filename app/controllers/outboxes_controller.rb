@@ -6,7 +6,9 @@ class OutboxesController < ApplicationController
     end
 
     def new
+
         @outbox = Outbox.new
+
     end
 
     def create
@@ -38,6 +40,7 @@ class OutboxesController < ApplicationController
             render :edit
         end
     end
+
 
     private
         def outbox_params
