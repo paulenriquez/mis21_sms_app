@@ -6,10 +6,6 @@ class InboxesController < ApplicationController
 	    @inboxes = Inbox.all
 	end
 
-
-
-#HTTParty.post('http://localhost:3000/inbox/receive', body: post_req, headers: {'Content-Type' => 'application/x-www-form-urlencoded'}, verify: false)
-
 	def receive
 		@inbox = Inbox.new
 		permitted_inbox_attributes = Inbox.column_names - ['id', 'created_at', 'updated_at']
@@ -29,6 +25,23 @@ class InboxesController < ApplicationController
 	def show
 		@inbox = Inbox.find(params[:id])
 	end
+
+
+	def edit
+		@inbox = Inbox.find(params[:id])
+		@outbox = Outbox.new(message: @inbox.message)
+	end
+
+	def update
+		@outbox = Outbox.new(outbox_params)
+		@outbox.message_type = 'SEND'
+		if @outbox.save
+			redirect_to inboxes_path, notice: 'Inbox message successfully forwarded!'
+		else
+			render :edit
+		end
+	end
+
 
 	def destroy
 		@inbox = Inbox.find(params[:id])
@@ -51,4 +64,9 @@ class InboxesController < ApplicationController
 			}
 			HTTParty.post(Rails.application.config.chikka_api_post_request_url, body: reply_message, headers: {'Content-Type' => 'application/x-www-form-urlencoded'}, verify: false)
 		end
+
+		def outbox_params
+            params.require(:outbox).permit(:mobile_number, :message)
+        end
+
 end

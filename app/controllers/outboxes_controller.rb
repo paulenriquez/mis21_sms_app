@@ -5,10 +5,9 @@ class OutboxesController < ApplicationController
     end
 
     def new
-        @outbox = Outbox.new do |outbox|
-            outbox.mobile_number = params[:mobile_number]
-            outbox.message = params[:message]
-        end
+
+        @outbox = Outbox.new
+
     end
 
     def create
@@ -18,13 +17,29 @@ class OutboxesController < ApplicationController
             send_message(@outbox)
             redirect_to outbox_path(@outbox.id)
         else
-            redirect_to new_outbox_path(send_type: 'resend')
+            render :new
         end
     end
 
     def show
         @outbox = Outbox.find(params[:id])
     end
+
+    def edit
+        @outbox = Outbox.find(params[:id])
+    end
+
+    def update
+        @outbox = Outbox.new(outbox_params)
+        @outbox.message_type = 'SEND'
+        if @outbox.save
+            send_message(@outbox)
+            redirect_to outbox_path(@outbox.id)
+        else
+            render :edit
+        end
+    end
+
 
     private
         def outbox_params

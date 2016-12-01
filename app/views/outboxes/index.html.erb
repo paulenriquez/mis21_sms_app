@@ -22,7 +22,7 @@
                         <%= link_to "View Message", outbox_path(outbox.id) %>
                     </td>
                     <td>
-                        <%= link_to "Resend Message", new_outbox_path(send_type: "resend", mobile_number: outbox.mobile_number, message: outbox.message) %>
+                        <%= link_to "Resend Message", edit_outbox_path(outbox.id) %>
                     </td>
                 </tr>
             <% end %>

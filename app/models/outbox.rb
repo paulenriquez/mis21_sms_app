@@ -1,4 +1,5 @@
 class Outbox < ApplicationRecord
+    belongs_to :user
     before_save :complete_outbox_attributes
 
     validates :mobile_number, presence: true
