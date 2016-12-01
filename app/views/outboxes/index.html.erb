@@ -1,0 +1,31 @@
+<h1>Outbox</h1>
+<table class="table table-striped">
+    <thead>
+        <th>ID</th>
+        <th>Created by</th>
+        <th>Mobile Number</th>
+        <th>Message</th>
+        <th>Sent</th>
+    </thead>
+    <tbody>
+        <% if @outboxes.empty? %>
+            <tr><td>No Messages</td></tr>
+        <% else %>
+            <% @outboxes.each do |outbox| %>
+                </tr>
+                    <td><%= outbox.id %></td>
+                    <td></td>
+                    <td><%= outbox.mobile_number %></td>
+                    <td><%= outbox.message %></td>
+                    <td><%= outbox.created_at %></td>
+                    <td>
+                        <%= link_to "View Message", outbox_path(outbox.id) %>
+                    </td>
+                    <td>
+                        <%= link_to "Resend Message", new_outbox_path(send_type: "resend", mobile_number: outbox.mobile_number, message: outbox.message) %>
+                    </td>
+                </tr>
+            <% end %>
+        <% end %>
+    </tbody>
+</table>

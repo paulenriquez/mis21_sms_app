@@ -1,0 +1,36 @@
+<h1>Inbox Messages</h1>
+
+<table class="table table-striped">
+	<thead>
+		<th>Id</th>
+		<th>Mobile Number</th>
+		<th>Message</th>
+		<th>Received</th>
+		<th colspan="3"></th>
+	</thead>
+	<tbody>
+		<% if @inboxes.empty? %>
+			<tr>
+				<td colspan="7"><em>No messages</em></td>
+			</tr>
+		<% else %>
+			<% @inboxes.each do |inbox| %>
+				<tr>
+					<td><%= inbox.id %></td>
+					<td><%= inbox.mobile_number %></td>
+					<td><%= inbox.message %></td>
+					<td><%= inbox.created_at %></td>
+					<td>
+						<%= link_to "Show Message", inbox_path(inbox), class: "btn btn-info" %>
+					</td>
+					<td>
+						<%= link_to "Forward Message", new_outbox_path(send_type:"forward", message: inbox.message), class: "btn btn-info" %>
+					</td>
+					<td>
+						<%= link_to "Delete?", inbox_path(inbox), class: "btn btn-danger", method: :delete, data: { confirm: "Are you sure you want to delete this message?" } %>
+					</td>
+				</tr>
+			<% end %>
+		<% end %>
+	</tbody>
+</table>

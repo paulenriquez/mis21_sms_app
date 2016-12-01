@@ -1,0 +1,13 @@
+<h1>Outbox</h1>
+<h4>Show Message</h4>
+<table>
+    <tr>
+        <td>Mobile Number:</td>
+        <td><%= @outbox.mobile_number%></td>
+    </tr>
+    <tr>
+        <td>Message:</td>
+        <td><%= @outbox.message %></td>
+    </tr>
+</table>
+<%= link_to "Go back to Outbox", outboxes_path %>
