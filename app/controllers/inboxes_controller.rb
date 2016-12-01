@@ -1,14 +1,10 @@
 class InboxesController < ApplicationController
-   # before_action :authenticate_user! except: [:receive]
+   before_action :authenticate_user! except: [:receive]
    protect_from_forgery except: [:receive]
 
 	def index
 	    @inboxes = Inbox.all
 	end
-
-
-
-#HTTParty.post('http://localhost:3000/inbox/receive', body: post_req, headers: {'Content-Type' => 'application/x-www-form-urlencoded'}, verify: false)
 
 	def receive
 		@inbox = Inbox.new
