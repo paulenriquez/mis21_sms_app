@@ -32,7 +32,7 @@ class InboxesController < ApplicationController
 	end
 
 	def update
-		@outbox = Outbox.new(outbox_params)
+		@outbox = current_user.outboxes.new(outbox_params)
 		@outbox.message_type = 'SEND'
 		if @outbox.save
 			redirect_to inboxes_path, notice: 'Inbox message successfully forwarded!'
