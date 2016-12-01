@@ -14,7 +14,7 @@
             <% @outboxes.each do |outbox| %>
                 </tr>
                     <td><%= outbox.id %></td>
-                    <td></td>
+                    <td><%= outbox.user.email if outbox.user.present? %></td>
                     <td><%= outbox.mobile_number %></td>
                     <td><%= outbox.message %></td>
                     <td><%= outbox.created_at %></td>

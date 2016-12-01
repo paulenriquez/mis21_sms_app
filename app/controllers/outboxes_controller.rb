@@ -1,5 +1,6 @@
 class OutboxesController < ApplicationController
     before_action :authenticate_user!
+
     def index
         @outboxes = Outbox.all
     end
@@ -9,11 +10,11 @@ class OutboxesController < ApplicationController
     end
 
     def create
-        @outbox = Outbox.new(outbox_params)
+        @outbox = current_user.outboxes.new(outbox_params)
         @outbox.message_type = 'SEND'
         if @outbox.save
             send_message(@outbox)
-            redirect_to outbox_path(@outbox.id)
+            redirect_to outbox_path(@outbox)
         else
             render :new
         end
@@ -28,11 +29,11 @@ class OutboxesController < ApplicationController
     end
 
     def update
-        @outbox = Outbox.new(outbox_params)
+        @outbox = current_user.outboxes.new(outbox_params)
         @outbox.message_type = 'SEND'
         if @outbox.save
             send_message(@outbox)
-            redirect_to outbox_path(@outbox.id)
+            redirect_to outbox_path(@outbox)
         else
             render :edit
         end
