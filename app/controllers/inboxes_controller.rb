@@ -56,6 +56,7 @@ class InboxesController < ApplicationController
 			outbox.attributes.each do |key, value|
 				reply_message[key] = value
 			end
+			reply_message[:request_id] = received_sms_message.request_id
 			reply_message[:request_cost] = 'FREE'
 
 			HTTParty.post(Rails.application.config.chikka_api_post_request_url, body: reply_message, headers: {'Content-Type' => 'application/x-www-form-urlencoded'}, verify: false)
