@@ -1,8 +1,10 @@
 class InboxesController < ApplicationController
-   before_action :authenticate_user!, except: [:receive]
+   before_action :authenticate_user!, except: [:receive, :send_confirmation_reply]
    protect_from_forgery except: [:receive]
 
 	def receive
+		# HTTParty.post('http://localhost:3000/inbox/receive', body: Inbox.find(24).attributes, headers: {'Content-Type' => 'application/x-www-form-urlencoded'}, verify: false)
+
 		@inbox = Inbox.new
 		permitted_inbox_attributes = Inbox.column_names - ['id', 'created_at', 'updated_at']
 
@@ -48,21 +50,25 @@ class InboxesController < ApplicationController
 
 	private
 		def send_confirmation_reply(received_sms_message)
-			outbox = Outbox.new(message_type: 'REPLY', mobile_number: received_sms_message.mobile_number, message: received_sms_message.message)
-			reply_message = {}
-			
-			outbox.save
-
-			outbox.attributes.each do |key, value|
-				reply_message[key] = value
-			end
-			reply_message[:request_id] = received_sms_message.request_id
-			reply_message[:request_cost] = 'FREE'
-
+			reply_message_to_hash = {
+				message_type: 'REPLY',
+				mobile_number: received_sms_message.mobile_number,
+				shortcode: Rails.application.config.chikka_api_shortcode,
+				request_id: received_sms_message.request_id,
+				message_id: generate_message_id,
+				message: Rails.application.config.chikka_api_confirmation_reply_message,
+				request_cost: 'FREE',
+				client_id: Rails.application.config.chikka_api_client_id,
+				secret_key: Rails.application.config.chikka_api_secret_key
+			}
 			HTTParty.post(Rails.application.config.chikka_api_post_request_url, body: reply_message, headers: {'Content-Type' => 'application/x-www-form-urlencoded'}, verify: false)
 		end
-		def outbox_params
-            params.require(:outbox).permit(:mobile_number, :message)
+		def generate_message_id
+        	message_id = SecureRandom.hex
+        	while Outbox.exists?(message_id: message_id, created_at: DateTime.now - 24.hours) do
+            	message_id = SecureRandom.hex
+        	end
+        	message_id
         end
 		def send_message(sms_message)
             HTTParty.post(Rails.application.config.chikka_api_post_request_url, body: sms_message.attributes, headers: {'Content-Type' => 'application/x-www-form-urlencoded'}, verify: false)

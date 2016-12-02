@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   get 'outbox/:id/success', to: 'outboxes#sent', as: 'sent_outbox'
 
   devise_for :users
-  resources :outboxes, path: 'outbox', except: [:destroy]
+  resources :outboxes, path: 'outbox', except: [:edit, :update, :destroy]
   resources :inboxes, path: 'inbox', except: [:new, :create, :edit, :update]
-  resources :pages
+  resources :pages, only: [:index]
 end
