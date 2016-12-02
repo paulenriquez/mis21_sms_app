@@ -34,7 +34,7 @@ class InboxesController < ApplicationController
 		@outbox = current_user.outboxes.new(outbox_params)
 		if @outbox.save
 			send_message(@outbox)
-			redirect_to sent_outbox_path(id: @outbox.id, from: 'inbox')
+			redirect_to sent_outbox_path(id: @outbox.id, from: 'inbox'), notice: 'Inbox message successfully forwarded!'
 		else
 			render :forward
 		end
@@ -42,7 +42,7 @@ class InboxesController < ApplicationController
 
 	def destroy
 		@inbox = Inbox.find(params[:id])
-	    @inbox.destroy
+		@inbox.destroy
 	    redirect_to inboxes_path, notice: 'Inbox message successfully deleted!'
 	end
 

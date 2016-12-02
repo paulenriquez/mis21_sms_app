@@ -1,5 +1,5 @@
 <h4 class="page-title">Message successfully sent!</h4>
-<div class="panel panel-success">
+<div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title"><%= @outbox.mobile_number %></h3>
     </div>
@@ -8,4 +8,4 @@
     </div>
 </div>
 
-<%= link_to @return_link[:text], @return_link[:link] %>
+<%= link_to @return_link[:text], @return_link[:link], class: "btn btn-default" %>

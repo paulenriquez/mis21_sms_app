@@ -10,7 +10,7 @@
 
   <body>
     <div>
-      <nav class="navbar navbar-default navbar-fixed-top">
+      <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
           <ul class="nav navbar-nav">
             <li><a href="/">Home</a></li>
@@ -32,8 +32,12 @@
       </nav>
     </div>
     <div class="container">
-  	  <p class="notice"><%= notice %></p>
-  	  <p class="alert"><%= alert %></p>
+      <% if notice %>
+			  <p class="alert alert-success"><%= notice %></p>
+			<% end %>
+			<% if alert %>
+			  <p class="alert alert-danger"><%= alert %></p>
+			<% end %>
 
       <%= yield %>
     </div>

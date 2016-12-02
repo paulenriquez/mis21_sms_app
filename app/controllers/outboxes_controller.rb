@@ -17,7 +17,7 @@ class OutboxesController < ApplicationController
         @outbox = current_user.outboxes.new(outbox_params)
         if @outbox.save
             send_message(@outbox)
-            redirect_to sent_outbox_path(@outbox)
+            redirect_to sent_outbox_path(@outbox), notice: 'Outbox message successfully sent!'
         else
             render :new
         end
