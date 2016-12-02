@@ -3,8 +3,6 @@ class InboxesController < ApplicationController
    protect_from_forgery except: [:receive]
 
 	def receive
-		# HTTParty.post('http://localhost:3000/inbox/receive', body: Inbox.find(24).attributes, headers: {'Content-Type' => 'application/x-www-form-urlencoded'}, verify: false)
-
 		@inbox = Inbox.new
 		permitted_inbox_attributes = Inbox.column_names - ['id', 'created_at', 'updated_at']
 
