@@ -11,21 +11,19 @@
         <% if @outboxes.empty? %>
             <tr><td>No Messages</td></tr>
         <% else %>
-            <% @outboxes.each do |outbox| %>
-                <% if not outbox.message_type == 'REPLY' %>
-                    </tr>
-                        <td><%= outbox.mobile_number %></td>
-                        <td><%= outbox.user.email if outbox.user.present? %></td>
-                        <td><%= outbox.message %></td>
-                        <td><%= outbox.created_at %></td>
-                        <td>
-                            <div class="btn-group message-actions" role="group">
-                                <%= link_to "View", outbox_path(outbox), class: 'btn btn-default' %>
-                                <%= link_to "Resend", resend_outbox_path(outbox), class: 'btn btn-default' %>
-                            </div>
-                        </td>
-                    </tr>
-                <% end %>
+           <% @outboxes.each do |outbox| %>
+                   </tr>
+                       <td><%= outbox.mobile_number %></td>
+                       <td><%= outbox.user.email if outbox.user.present? %></td>
+                       <td><%= outbox.message %></td>
+                       <td><%= outbox.created_at %></td>
+                       <td>
+                           <div class="btn-group message-actions" role="group">
+                               <%= link_to "View", outbox_path(outbox), class: 'btn btn-default' %>
+                               <%= link_to "Resend", resend_outbox_path(outbox), class: 'btn btn-default' %>
+                           </div>
+                       </td>
+                   </tr>
             <% end %>
         <% end %>
     </tbody>

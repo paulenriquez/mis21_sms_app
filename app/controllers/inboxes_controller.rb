@@ -50,7 +50,7 @@ class InboxesController < ApplicationController
 
 	private
 		def send_confirmation_reply(received_sms_message)
-			reply_message_to_hash = {
+			reply_message = {
 				message_type: 'REPLY',
 				mobile_number: received_sms_message.mobile_number,
 				shortcode: Rails.application.config.chikka_api_shortcode,
